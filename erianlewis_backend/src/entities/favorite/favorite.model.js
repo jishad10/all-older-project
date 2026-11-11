@@ -1,0 +1,12 @@
+import mongoose from 'mongoose';
+
+const FavoriteSchema = new mongoose.Schema({
+  user:     { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  property: { type: mongoose.Schema.Types.ObjectId, ref: 'RentalProperty', required: true },
+}, { timestamps: true });
+
+// one favorite per user per property
+FavoriteSchema.index({ user: 1, property: 1 }, { unique: true });
+
+const Favorite = mongoose.model('Favorite', FavoriteSchema);
+export default Favorite;
