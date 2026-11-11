@@ -1,0 +1,74 @@
+import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Resend } from 'resend';
+
+@Injectable()
+export class EmailService implements OnModuleInit {
+  private resend: Resend;
+  private readonly logger = new Logger(EmailService.name);
+
+  constructor(private readonly configService: ConfigService) {}
+
+  onModuleInit() {
+    this.resend = new Resend(this.configService.get<string>('email.resendApiKey'));
+  }
+
+  async sendOtpEmail(to: string, otp: string): Promise<void> {
+    try {
+      await this.resend.emails.send({
+        from: `"Bubble Drive" <${this.configService.get<string>('email.from')}>`,
+        to,
+        subject: 'Password Reset OTP',
+        html: this.addContactFooter(this.otpTemplate(otp)),
+      });
+    } catch (error) {
+      this.logger.error('Failed to send OTP email', error);
+      throw error;
+    }
+  }
+
+  async sendEmail(options: { to: string; subject: string; html: string }): Promise<void> {
+    try {
+     await this.resend.emails.send({
+  from: `"Bubble Drive" <${this.configService.get<string>('email.from')}>`,
+  ...options,
+  html: this.addContactFooter(options.html),
+});
+    } catch (error) {
+      this.logger.error('Failed to send email', error);
+      throw error;
+    }
+  }
+  private addContactFooter(html: string): string {
+  return `
+    ${html}
+    <p style="margin-top: 20px; color: #6b7280; font-size: 13px; text-align: center;">
+      For help, contact us on +447497791686.
+    </p>
+  `;
+}
+
+  private otpTemplate(otp: string): string {
+    return `
+      <!DOCTYPE html><html><head><meta charset="UTF-8"/>
+      <style>
+        body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:0}
+        .container{max-width:600px;margin:40px auto;background:#fff;border-radius:8px;overflow:hidden}
+        .header{background:#4f46e5;padding:24px;text-align:center}
+        .header h1{color:#fff;margin:0;font-size:24px}
+        .body{padding:32px;text-align:center}
+        .otp{font-size:40px;font-weight:bold;color:#4f46e5;letter-spacing:8px;margin:24px 0}
+        .footer{text-align:center;padding:16px;font-size:12px;color:#9ca3af}
+      </style></head>
+      <body><div class="container">
+        <div class="header"><h1>Password Reset</h1></div>
+        <div class="body">
+          <p>Your OTP code is:</p>
+          <div class="otp">${otp}</div>
+          <p>This code expires in <strong>15 minutes</strong>.</p>
+          <p>If you did not request this, please ignore this email.</p>
+        </div>
+        <div class="footer">&copy; ${new Date().getFullYear()} Bubble Drive. All rights reserved.</div>
+      </div></body></html>`;
+  }
+}

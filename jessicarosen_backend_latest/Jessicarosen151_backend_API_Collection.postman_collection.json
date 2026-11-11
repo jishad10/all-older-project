@@ -1,0 +1,268 @@
+{
+    "info": {
+      "name": "Jessicarosen151_backend API Collection",
+      "description": "A comprehensive collection containing both authentication and user management APIs",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "version": "1.0.0"
+    },
+    "item": [
+      {
+        "name": "Authentication APIs",
+        "description": "Endpoints for user authentication and authorization",
+        "item": [
+          {
+            "name": "Register User",
+            "request": {
+              "method": "POST",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"fullName\": \"John Doe\",\n  \"phoneNumber\": \"1234567890\",\n  \"email\": \"john@example.com\",\n  \"password\": \"Password123\"\n}"
+              },
+              "url": {
+                "raw": "http://localhost:5000/api/v1/auth/register",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "v1", "auth", "register"]
+              }
+            }
+          },
+          {
+            "name": "Login User",
+            "request": {
+              "method": "POST",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"Password123\"\n}"
+              },
+              "url": {
+                "raw": "http://localhost:5000/api/v1/auth/login",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "v1", "auth", "login"]
+              }
+            }
+          },
+          {
+            "name": "Refresh Token",
+            "request": {
+              "method": "POST",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"refreshTokenBody\": \"<paste_your_refresh_token_here>\"\n}"
+              },
+              "url": {
+                "raw": "http://localhost:5000/api/v1/auth/refresh-token",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "v1", "auth", "refresh-token"]
+              }
+            }
+          },
+          {
+            "name": "Forget Password",
+            "request": {
+              "method": "POST",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"email\": \"john@example.com\"\n}"
+              },
+              "url": {
+                "raw": "http://localhost:5000/api/v1/auth/forget-password",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "v1", "auth", "forget-password"]
+              }
+            }
+          },
+          {
+            "name": "Verify Code",
+            "request": {
+              "method": "POST",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"email\": \"john@example.com\",\n  \"verificationCode\": 123456\n}"
+              },
+              "url": {
+                "raw": "http://localhost:5000/api/v1/auth/verify-code",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "v1", "auth", "verify-code"]
+              }
+            }
+          },
+          {
+            "name": "Reset Password",
+            "request": {
+              "method": "POST",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"NewPassword123\"\n}"
+              },
+              "url": {
+                "raw": "http://localhost:5000/api/v1/auth/reset-password",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "v1", "auth", "reset-password"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "User Management APIs",
+        "description": "Endpoints for user management operations",
+        "item": [
+          {
+            "name": "Get All Users",
+            "request": {
+              "url": {
+                "raw": "http://localhost:5000/api/v1/user/all-users?page=1&limit=10&search=John&date=2024-01-01",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "v1", "user", "all-users"],
+                "query": [
+                  { "key": "page", "value": "1" },
+                  { "key": "limit", "value": "10" },
+                  { "key": "search", "value": "John" },
+                  { "key": "date", "value": "2024-01-01" }
+                ]
+              },
+              "method": "GET",
+              "description": "Fetch all users with pagination and filters"
+            }
+          },
+          {
+            "name": "Get All Admins",
+            "request": {
+              "url": {
+                "raw": "http://localhost:5000/api/v1/user/all-admins?page=1&limit=10&search=John",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "v1", "user", "all-admins"],
+                "query": [
+                  { "key": "page", "value": "1" },
+                  { "key": "limit", "value": "10" },
+                  { "key": "search", "value": "John" }
+                ]
+              },
+              "method": "GET",
+              "description": "Fetch all admin users with pagination and search"
+            }
+          },
+          {
+            "name": "Get All Super Admins",
+            "request": {
+              "url": {
+                "raw": "http://localhost:5000/api/v1/user/all-super-admins?page=1&limit=10&search=Admin",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "v1", "user", "all-super-admins"],
+                "query": [
+                  { "key": "page", "value": "1" },
+                  { "key": "limit", "value": "10" },
+                  { "key": "search", "value": "Admin" }
+                ]
+              },
+              "method": "GET",
+              "description": "Fetch all super admin users with pagination and search"
+            }
+          },
+          {
+            "name": "Get User by ID",
+            "request": {
+              "url": {
+                "raw": "http://localhost:5000/api/v1/user/6604fc41213448d394db854a",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "v1", "user", "6604fc41213448d394db854a"]
+              },
+              "method": "GET",
+              "description": "Fetch a single user by ID"
+            }
+          },
+          {
+            "name": "Update User",
+            "request": {
+              "url": {
+                "raw": "http://localhost:5000/api/v1/user/6604fc41213448d394db854a",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "v1", "user", "6604fc41213448d394db854a"]
+              },
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"name\": \"Updated Name\", \"email\": \"updated@example.com\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "description": "Update a user's details"
+            }
+          },
+          {
+            "name": "Delete User",
+            "request": {
+              "url": {
+                "raw": "http://localhost:5000/api/v1/user/6604fc41213448d394db854a",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "v1", "user", "6604fc41213448d394db854a"]
+              },
+              "method": "DELETE",
+              "description": "Delete a user by ID"
+            }
+          },
+          {
+            "name": "Upload Avatar",
+            "request": {
+              "url": {
+                "raw": "http://localhost:5000/api/v1/user/upload-avatar",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "v1", "user", "upload-avatar"]
+              },
+              "method": "POST",
+              "body": {
+                "mode": "formdata",
+                "formdata": [
+                  {
+                    "key": "id",
+                    "value": "6604fc41213448d394db854a",
+                    "type": "text"
+                  },
+                  {
+                    "key": "file",
+                    "type": "file",
+                    "src": "/path/to/your/avatar.jpg"
+                  }
+                ]
+              },
+              "description": "Upload a user's avatar image"
+            }
+          }
+        ]
+      }
+    ]
+  }
